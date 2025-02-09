@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Featured from "../homepage/Featured";
 import { client } from "@/sanity/lib/client";
-// import { client } from "@/sanity/lib/client";
 
 // Define the types for the product and product image
 interface ProductImage {
@@ -13,19 +12,23 @@ interface ProductImage {
 }
 
 interface Product {
+  _id: string;
   title: string;
-  productImage: ProductImage | null;
+  productImage?: ProductImage | null;
   price: number;
   discountPercentage?: number;
-  _updatedAt: string; _id:string
+  _updatedAt: string;
+  category?: {
+    title: string;
+  };
 }
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[][]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [currentButtonSet, setCurrentButtonSet] = useState<number>(0); // Tracks the button group
-  const chunkSize = 3; // Number of products per page
-  const buttonsPerPage = 3; // Number of page numbers visible at a time
+  const [currentButtonSet, setCurrentButtonSet] = useState<number>(0);
+  const chunkSize = 3;
+  const buttonsPerPage = 3;
 
   // Fetch data inside useEffect
   useEffect(() => {
@@ -33,6 +36,7 @@ export default function ProductList() {
       try {
         const response: Product[] = await client.fetch(
           `*[_type=='product']{
+            _id,
             title,
             _updatedAt,
             productImage{
@@ -42,7 +46,10 @@ export default function ProductList() {
               }
             },
             price,
-            discountPercentage
+            discountPercentage,
+            category {
+              title
+            }
           }`
         );
 
@@ -81,45 +88,25 @@ export default function ProductList() {
   };
 
   return (
-    <section className="py-20 flex flex-col  items-center gap-[48px] w-[80vw] lg:w-[75vw]  mx-auto">
+    <section className="py-20 flex flex-col items-center gap-[48px] w-[80vw] lg:w-[75vw] mx-auto">
       <div className="flex flex-col gap-14 lg:gap-[30px] lg:flex-row">
-        {products[currentPage]?.map((product, index) => (
-          <Featured
-            key={product._id} href={product._id}
-            title={product.title}
-            img={
-              product.productImage?.asset?.url ||
-              "https://cdn.sanity.io/images/oywqmg2v/production/2219cafc285ec13a2ed3f88aa36cbea852a11735-305x375.png"
-            }
-            // updateDate={product._updatedAt}
-            
-            price={product.price}
-            dicountPrice={
-              typeof product.price === "number" &&
-              typeof product.discountPercentage === "number"
-                ? product.price -
-                  (product.price * product.discountPercentage) / 100
-                : product.price
-            }
-          />
-          // <Featured
-          //     key={product._id}
-          //     href={product._id}
-          //     title={product.title}
-          //     img={
-          //       product.productImage?.asset?.url ??
-          //       "https://cdn.sanity.io/images/oywqmg2v/production/2219cafc285ec13a2ed3f88aa36cbea852a11735-305x375.png"
-          //     }
-          //     category={product.category?.title ? product.category.title : "WOMEN"}
-          //     price={product.price}
-          //     dicountPrice={
-          //       typeof product.price === "number" &&
-          //       typeof product.dicountPercentage === "number"
-          //         ? product.price - (product.price * product.dicountPercentage) / 100
-          //         : product.price
-          //     }
-          //   />
-        ))}
+        {Array.isArray(products?.[currentPage]) &&
+          products[currentPage].map((product) => (
+            <Featured
+              key={product._id}
+              href={product._id}
+              title={product.title}
+              img={product.productImage?.asset?.url || "fallback-image-url"}
+              // category={product.category?.title || "WOMEN"}
+              price={product.price}
+              dicountPrice={
+                typeof product.price === "number" &&
+                typeof product.discountPercentage === "number"
+                  ? product.price - (product.price * product.discountPercentage) / 100
+                  : product.price
+              }
+            />
+          ))}
       </div>
 
       {/* Pagination Controls */}

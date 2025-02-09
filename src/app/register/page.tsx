@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa";
+
 
 export default function Register() {
   return (
@@ -95,22 +95,7 @@ export default function Register() {
             </button>
           </form>
 
-          {/* Social Login */}
-          <div className="text-center mt-6">
-            <p className="text-sm text-gray-600 mb-4">Or register with</p>
-            <div className="flex justify-center gap-4">
-              <button className="flex items-center justify-center bg-red-500 text-white py-3 px-3 rounded-full hover:bg-red-600 transition duration-200">
-                <FaGoogle size={20} />
-              </button>
-              <button className="flex items-center justify-center bg-blue-700 text-white py-3 px-3 rounded-full hover:bg-blue-800 transition duration-200">
-                <FaFacebook size={20} />
-              </button>
-              <button className="flex items-center justify-center bg-gray-800 text-white py-3 px-3 rounded-full hover:bg-gray-900 transition duration-200">
-                <FaGithub size={20} />
-              </button>
-            </div>
-          </div>
-
+         
           {/* Redirect to Login */}
           <div className="text-center mt-4">
             <p className="text-sm text-gray-600">

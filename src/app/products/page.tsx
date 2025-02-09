@@ -57,12 +57,18 @@ const ProductsPage: React.FC = () => {
             onClick={() => router.push(`/products/${product._id}`)}
             // Navigate to dynamic route
           >
-   <Link href={`/components/products/${product.slug?.current}`} passHref>
+
+
+
+
+
+
+    <Link href={`/components/products/${product.slug?.current}`} passHref>
       <div className="block p-4 border rounded-lg hover:shadow-lg transition">
         {product.imageUrl && (
           <Image
             src={product.imageUrl}
-            alt={product.title}
+            alt={product.title || "Product Image"}
             width={300}
             height={300}
             className="w-full h-48 object-cover rounded-md"

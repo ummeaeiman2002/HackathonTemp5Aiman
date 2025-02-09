@@ -1,6 +1,6 @@
 import React from "react";
 import Partners from "../globalComponents/Partners";
-import Clients from "../shoppage/Clients";
+import Clients from "../shop/Clients";
 
 export default function Companies() {
   return (
