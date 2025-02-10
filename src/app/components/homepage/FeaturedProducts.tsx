@@ -1,7 +1,8 @@
 import React from "react";
 import { Products } from "../../assets";
-import Featured from "./Featured";
 import { client } from "@/sanity/lib/client";
+import Featured from "./Featured";
+
 
 export default async function FeaturedProducts() {
   const response = await client.fetch(
@@ -46,17 +47,17 @@ export default async function FeaturedProducts() {
             index: number
           ) => (
             <Featured
-              key={product._id} href={product._id}
-              title={product.title}
-              // img={product.productImage?.asset?.url}
-              img={product.productImage?.asset?.url || "https://cdn.sanity.io/images/oywqmg2v/production/2219cafc285ec13a2ed3f88aa36cbea852a11735-305x375.png"}
-              // updateDate={product._updatedAt}
-              price={product.price}
-              dicountPrice={
-                product.price -
-                (product.price * product.dicountPercentage) / 100
-              }
-            />
+            key={product._id}
+            href={`/product/${product._id}`}  // ✅ Added href with dynamic product ID
+            title={product.title}
+            img={product.productImage?.asset?.url || "https://cdn.sanity.io/images/oywqmg2v/production/2219cafc285ec13a2ed3f88aa36cbea852a11735-305x375.png"}
+            price={product.price}
+            discountPrice={
+              product.price - (product.price * (product.dicountPercentage || 0)) / 100  // ✅ Fixed typo & added fallback
+            }
+          />
+          
+
           )
         )}
 

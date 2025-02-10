@@ -1,209 +1,67 @@
-// // child of FeaturedProduct
-// import React from "react";
-// import Image from "next/image";
-// import Link from "next/link";
-
-// export default function Featured({
-//   img,
-//   title,
-//   updateDate,
-//   price,
-//   discountPrice, href
-// }: {
-//   img: any;
-//   title: string;
-//   updateDate: any;
-//   price: number;
-//   discountPrice: number; href:string
-// }) {
-//   // *[_type=='product']{title, _updatedAt, productImage, _rev, price,dicountPercentage   }
-//   return (
-//     <Link href={`/products/${href}`} className="flex flex-col justify-center gap-8 h-[615px] w-[328px] lg:w-[238px]">
-//       <Image src={img} alt="" width={100} height={100} className=" min-h-[427px] w-[328px] lg:w-[238px] h-[427px] mx-auto object-cover"/>
-//       <div className="flex flex-col justify-center items-center text-center gap-[10px]">
-//         <h3 className="font-bold leading-6">{title}</h3>
-//         <p className="text-[#737373] leading-6 font-bold">{updateDate}</p>
-//         <div className="flex gap-2">
-//           <p className="text-[#BDBDBD] font-bold leading-6">${price}</p>
-//           <p className="text-[#23856D] font-bold leading-6">${discountPrice}</p>
-//         </div>
-//         <div className="flex gap-[6px]">
-//           <div className="bg-[#23A6F0] w-[16px] h-[16px] rounded-full"></div>
-//           <div className="bg-[#23856D] w-[16px] h-[16px] rounded-full"></div>
-//           <div className="bg-[#E77C40] w-[16px] h-[16px] rounded-full"></div>
-//           <div className="bg-[#252B42] w-[16px] h-[16px] rounded-full"></div>
-//         </div>
-//       </div>
-//     </Link>
-//   );
-// }
-
-// child of FeaturedProduct
-"use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+"use client"
+import React, { useState } from "react";
 import Link from "next/link";
 
-interface item {
+interface FeaturedProps {
   title: string;
-  href: string;
+  img: string;
+  price: number;
+  discountPrice: number;
+  href?: string;
+  updateDate?: string;
 }
 
-export default function Featured({
-  img,
-  title,
-  // category,
-  price,
-  dicountPrice,
-  href,
-}: {
-  img: any;
-  title: string;
-  // category: string;
-  price: number;
-  dicountPrice: number;
-  href: string;
-}) {
-  const [product, setProduct] = useState<{
-    img: any;
-    title: string;
-    // category: string;
-    price: number;
-    dicountPrice: number;
-    href: string;
-  } >();
-  const [count, setCount] = useState(1); 
- 
-  // cart count
-  const increase = () => {
-    setCount((count)=>count + 1);
-  };
-  const decrease = () => {
-    if (count >= 1) {
-      setCount((count)=>count - 1);
-    } else {
-      setCount(count);
-    }
-  };
+const Featured: React.FC<FeaturedProps> = ({ title, img, price, discountPrice, href, updateDate }) => {
+  const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
-    console.log(`value of ${title}=${count}`);
-  }, [count]);
-
-
-  useEffect(() => {
-    setProduct({
-      img,
-      title,
-      price,
-      dicountPrice,
-      href,
-    });
-  }, [img, title,
-     price, dicountPrice, href]);
-  
   const handleAddToCart = () => {
-    if (!product) return;
-
-    // Get cart from localStorage
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    // Check if product already exists in the cart
-    const existingProductIndex = cart.findIndex((item: {
-      img: any;
-      title: string;
-      category: string;
-      price: number;
-      dicountPrice: number;
-      href: string;
-    }) => item.href === product.href);
-
-    if (existingProductIndex !== -1) {
-      // If product already exists, increase the quantity
-      cart[existingProductIndex].quantity += 1;
-
-      console.log(cart)
-    } else {
-      // If product doesn't exist, add it to the cart with quantity 1
-      // cart.push({ ...product, quantity: 1 });
-      cart.push({ ...product, quantity: count });
-
-    }
-
-    // Save updated cart to localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(cart)
-
-    // Optional: Alert user or show confirmation message
-    alert("Product added to cart");
+    alert(`Added ${quantity}x "${title}" to cart!`);
+    // TODO: Implement actual cart functionality (e.g., Redux, Context API, Local Storage)
   };
 
   return (
-    // <counterContext.Provider value={{ count, setCount }}>
-      <div className="hover:bg-gray-100 flex flex-col justify-between gap-8 h-[715px] w-[328px] lg:w-[238px]">
-        <Link href={`/products/${href}`} className=" ">
-          <Image
-            src={`${img}`}
-            alt=""
-            width={100}
-            height={100}
-            className=" min-h-[427px] w-[328px] lg:w-[238px] h-[427px] mx-auto object-cover"
-          />
-        </Link>
-        <div className="flex flex-col justify-center items-center text-center gap-[10px] mb-[50px]">
-          <h3 className="font-bold leading-6">{title}</h3>
-          {/* <p className="text-[#737373] leading-6 font-bold">{category}</p> */}
-          <div className="flex gap-2">
-            <p className="text-[#BDBDBD] font-bold leading-6">${price}</p>
-            <p className="text-[#23856D] font-bold leading-6">
-              ${dicountPrice}
-            </p>
-          </div>
+    <div className="p-4 border rounded-lg shadow-md bg-white w-64 flex flex-col items-center">
+      <Link href={href || "#"} className="block">
+        <img src={img} alt={title} className="w-full h-48 object-cover rounded-md" />
+      </Link>
+      <h3 className="text-lg font-semibold mt-2 text-center">{title}</h3>
+      {updateDate && <p className="text-gray-500 text-sm text-center">Updated: {updateDate}</p>}
 
-          {/* <div className="flex gap-[6px]">
-          <div className="bg-[#23A6F0] w-[16px] h-[16px] rounded-full"></div>
-          <div className="bg-[#23856D] w-[16px] h-[16px] rounded-full"></div>
-          <div className="bg-[#E77C40] w-[16px] h-[16px] rounded-full"></div>
-          <div className="bg-[#252B42] w-[16px] h-[16px] rounded-full"></div>
-        </div> */}
-
-          <div className="flex flex-col gap-[6px]">
-            <button onClick={handleAddToCart} className="bg-white font-bold text-xs border border-[#23A6F0] text-[#23A6F0] py-[10px] px-[20px] rounded-full hover:text-white hover:bg-[#23A6F0]">
-              Add to cart
-            </button>
-            {/* <button
-              // onClick={toggleWishlist}
-              className={` font-bold text-xs border py-[10px] px-[20px] rounded-full hover:text-white hover:bg-[#23A6F0] 
-               
-              `}
-
-            >
-              Add to wishlist
-            </button> */}
-            <div className="flex gap-0 border justify-center  border-black rounded-2xl w-fit bg-white">
-              <button
-                onClick={decrease}
-                className="text-center w-[30px] text-xl hover:font-bold "
-              >
-                -
-              </button>
-              <input
-                disabled
-                type="number"
-                placeholder={`${count}`}
-                className="text-center w-[70px] px-2 border border-x-inherit"
-              />
-              <button
-                onClick={increase}
-                className="text-center w-[30px] text-xl hover:font-bold"
-              >
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-
+      <div className="text-center mt-2">
+        <p className="text-gray-700">
+          Price: <span className="font-bold">${price}</span>
+        </p>
+        <p className="text-red-500">
+          Discount Price: <span className="font-bold">${discountPrice}</span>
+        </p>
       </div>
-    //  </counterContext.Provider>
+
+      {/* Quantity Selector */}
+      <div className="flex items-center gap-2 mt-3">
+        <button
+          className="px-3 py-1 bg-gray-200 rounded text-lg"
+          onClick={() => setQuantity(Math.max(1, quantity - 1))}
+        >
+          -
+        </button>
+        <span className="text-lg font-semibold">{quantity}</span>
+        <button
+          className="px-3 py-1 bg-gray-200 rounded text-lg"
+          onClick={() => setQuantity(quantity + 1)}
+        >
+          +
+        </button>
+      </div>
+
+      {/* Add to Cart Button */}
+      <button
+        onClick={handleAddToCart}
+        className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+      >
+        Add to Cart
+      </button>
+    </div>
   );
-}
+};
+
+export default Featured;
