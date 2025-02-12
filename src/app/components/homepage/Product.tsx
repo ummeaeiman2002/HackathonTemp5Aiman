@@ -6,7 +6,7 @@ import React from "react";
 export default function Product({ p, text }: { p: any; text: string }) {
   return (
     <Link
-      href="/product-list"
+      href="/productlist"
       className="relative w-[80vw] lg:w-[75vw] mx-auto"
     >
       <Image

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import sanity from "@/sanity/lib/sanityclient";
+import { client } from "@/sanity/lib/client";
 
 
 interface Product {
@@ -26,7 +27,7 @@ const ProductDetailsPage = () => {
         _id, title, price, description, discountPercentage,
         "imageUrl": productImage.asset->url, tags
       }`;
-      const data = await sanity.fetch(query);
+      const data = await client.fetch(query);
       setProduct(data);
     };
 

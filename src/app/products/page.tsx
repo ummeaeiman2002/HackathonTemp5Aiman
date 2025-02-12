@@ -8,6 +8,7 @@ import sanity from "@/sanity/lib/sanityclient";
 import { addToCart } from "../actions/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { client } from "@/sanity/lib/client";
 
 
 const ProductsPage: React.FC = () => {
@@ -28,7 +29,7 @@ const ProductsPage: React.FC = () => {
           tags
         }`;
       
-        const data = await sanity.fetch(query);
+        const data = await client.fetch(query);
         setProducts(data);
       } catch (error) {
         console.error("Error Fetching Products:", error);
