@@ -21,7 +21,7 @@ const Featured: React.FC<FeaturedProps> = ({ title, img, price, discountPrice, h
 
   return (
     <div className="p-4 border rounded-lg shadow-md bg-white w-64 flex flex-col items-center">
-      <Link href={href || "#"} className="block">
+      <Link href={`/products/${href}`} className="block">
         <img src={img} alt={title} className="w-full h-48 object-cover rounded-md" />
       </Link>
       <h3 className="text-lg font-semibold mt-2 text-center">{title}</h3>

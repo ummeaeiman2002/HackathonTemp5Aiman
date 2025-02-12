@@ -13,6 +13,8 @@ interface ProductImage {
 
 interface Product {
   _id: string;
+
+
   title: string;
   productImage?: ProductImage | null;
   price: number;
@@ -99,7 +101,7 @@ export default function ProductList() {
               img={product.productImage?.asset?.url || "fallback-image-url"}
               // category={product.category?.title || "WOMEN"}
               price={product.price}
-              dicountPrice={
+              discountPrice={
                 typeof product.price === "number" &&
                 typeof product.discountPercentage === "number"
                   ? product.price - (product.price * product.discountPercentage) / 100
