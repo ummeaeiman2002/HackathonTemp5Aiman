@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Featured from "../homepage/Featured";
 import { client } from "@/sanity/lib/client";
+import Product from "../homepage/Product";
 
 // Define the types for the product and product image
 interface ProductImage {
@@ -152,3 +153,4 @@ export default function ProductList() {
     </section>
   );
 }
+

@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { icons, Products } from "@/app/assets";
 import Image from "next/image";
 
+
+
+
+
 export default function TheProduct() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const images: any[] = [Products.p1, Products.p2];

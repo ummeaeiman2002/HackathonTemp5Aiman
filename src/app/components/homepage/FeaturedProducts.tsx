@@ -1,5 +1,4 @@
 import React from "react";
-import { Products } from "../../assets";
 import { client } from "@/sanity/lib/client";
 import Featured from "./Featured";
 

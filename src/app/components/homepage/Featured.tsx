@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Link from "next/link";
+import { addToCart } from "@/app/actions/actions";
 
 interface FeaturedProps {
   title: string;

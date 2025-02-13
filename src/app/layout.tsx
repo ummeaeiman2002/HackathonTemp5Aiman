@@ -36,12 +36,12 @@ export default function RootLayout({
           <NotificationBar />
           <Navbar />
         </header>
-        
-       <WishlistProvider>
-        
+    
+      <WishlistProvider>   
       
         {children}
-        </WishlistProvider>
+        
+        </WishlistProvider> 
         
         
         

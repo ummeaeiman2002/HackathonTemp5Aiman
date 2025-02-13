@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import sanity from "@/sanity/lib/sanityclient";
 import { client } from "@/sanity/lib/client";
 
 
@@ -16,6 +15,8 @@ interface Product {
   imageUrl: string;
   tags: string[];
 }
+
+
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
